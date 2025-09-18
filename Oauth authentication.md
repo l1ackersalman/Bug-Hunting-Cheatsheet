@@ -20,6 +20,41 @@
   3. Always check `response_type` header to identify the grant type.
 ---
 
+### Authorization code grant type
+
+**Authorization request :**
+```
+GET /authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=code&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
+Host: oauth-authorization-server.com
+```
+**Authorization code grant :**
+```
+GET /callback?code=a1b2c3d4e5f6g7h8&state=ae13d489bd00e3c24 HTTP/1.1
+Host: client-app.com
+```
+**Access token request :**
+<br><br>All communication from this point on takes place in a secure back-channel and, therefore, cannot usually be observed.
+```
+POST /token HTTP/1.1
+Host: oauth-authorization-server.com
+…
+client_id=12345&client_secret=SECRET&redirect_uri=https://client-app.com/callback&grant_type=authorization_code&code=a1b2c3d4e5f6g7h8
+```
+
+### Implicit grant type
+
+**Authorization request :**
+```
+GET /authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=token&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
+Host: oauth-authorization-server.com
+```
+**Access token grant :**
+```
+GET /callback#access_token=z0y9x8w7v6u5&token_type=Bearer&expires_in=5000&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
+Host: client-app.com
+```
+---
+
 ### Improper implementation of the implicit grant type
 In the implicit flow, this POST request is exposed to attackers via their browser. As a result, this behavior can lead to a serious vulnerability if the client application doesn't properly check that the access token matches the other data in the request. In this case, an attacker can simply `change the parameters` sent to the server to impersonate any user. **For example:** When a token is sent to attacker browser, an attacker might change the `username`,`email` or other details targeting another user.<br>
 
