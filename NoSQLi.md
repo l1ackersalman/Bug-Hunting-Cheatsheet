@@ -115,6 +115,10 @@ In some cases we might need to use `\`.
 ```
 "{\"$ne\":null}"
 ```
+Using `paramtere=value` formate.
+```
+username=admin&password[$ne]=
+```
 
 **Note: We need to input at least one valid credential to make a valid query.**
 
