@@ -97,12 +97,14 @@ redirect_uri=https://client-app.net
 The code is sent to `client-app.net`.  
 ```
 redirect_uri=https://attacker.com
+Or,
+redirect_uri=https://attacker.com/.client-app.net
 ```
 The code is sent to `attacker.com`.<br>
 <br>
 **Note: If this process not work, try with `ssrf defense bypass` technique and `parameter pollution`.** <br>
 <br>
-**SSRF** : `redirect_uri=https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`<br>
+**SSRF** : `redirect_uri=https://default-host.com&@foo.evil-user.net#@bar.evil-user.net/`<br>
 **Parameter Pollution** : `client_id=123&redirect_uri=client-app.com/callback&redirect_uri=evil-user.net`
 <br>
 <br>Check this for more details >> [Flawed redirect_uri validation](https://portswigger.net/web-security/oauth#leaking-authorization-codes-and-access-tokens)
