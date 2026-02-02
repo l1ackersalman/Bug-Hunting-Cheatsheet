@@ -11,6 +11,7 @@
 8. [Unverified User Registration](#unverified-user-registration)
 9. [Unprotected Dynamic Client Registration via OpenID Connect](#unprotected-dynamic-client-registration-via-openid-connect)
 10. [Allowing authorization requests by reference](#Allowing-authorization-requests-by-reference)
+11. [Others](#Others)
 
 ---
 **Note:**
@@ -209,8 +210,13 @@ For more details: [Portswigger](https://portswigger.net/web-security/oauth/openi
 
 ---
 
+
 ### Allowing authorization requests by reference
 
 For more deatils: [Portswigger](https://portswigger.net/web-security/oauth/openid#allowing-authorization-requests-by-reference)
 
 ---
+
+### Others
+
+https://medium.com/@shahwarshah/some-auth-vulnerabilities-for-hunters-a311de3ddac6
