@@ -87,6 +87,8 @@ This decodes and executes the payload, running the `whoami` command.
 PoC: [$4500 Local File Inclusion: The Tiny Parameter That Exposed an Entire Infrastructure](https://medium.com/@cyberknight/4500-local-file-inclusion-the-tiny-parameter-that-exposed-an-entire-infrastructure-74f7d3cc669c)
 <br>
 PoC: [From LFI to RCE via expect:// PHP Wrapper](https://medium.com/@zoningxtr/from-lfi-to-rce-via-expect-php-wrapper-a-deep-dive-with-practical-examples-699690073fe8)
+<br>
+PoC: [Advanced Local and Remote File Inclusion - PHP Wrappers](https://www.youtube.com/watch?v=cPSYuodIq9s)
 
 ---
 
