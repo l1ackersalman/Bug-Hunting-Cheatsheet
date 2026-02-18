@@ -1,3 +1,11 @@
+## Index
+
+[Google Dorking](#Google-Dorking)
+[Endpoint and JS File Analyze](#Endpoint-and-JS-File-Analyze)
+[Curl](#Curl)
+
+## Google Dorking
+
 ### **1. Discovering Login Pages:**
 If you’re looking for login pages or authentication portals to test for vulnerabilities like **brute-force**, **credential stuffing**, or **authentication bypass**, Google dorking can help identify them.
 
@@ -154,7 +162,11 @@ File upload functionality can sometimes be insecure, allowing malicious file upl
 
 ---
 
-### Curl
+## Endpoint and JS File Analyze 
+
+`katana -u https://www.google.com/help/ -jc -o jvs.txt`
+
+## Curl
 `
 curl -G "https://web.archive.org/cdx/search/cdx" --data-urlencode "url=*.tesla.com/*" --data-urlencode "collapse=urlkey" --data-urlencode "output=text" --data-urlencode "fl=original" > out.txt
 `
