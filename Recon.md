@@ -4,6 +4,8 @@
 2. [Endpoint and JS File Analyze](#Endpoint-and-JS-File-Analyze)
 3. [Curl](#Curl)
 
+---
+
 ## Google Dorking
 
 ### **1. Discovering Login Pages:**
@@ -153,8 +155,6 @@ File upload functionality can sometimes be insecure, allowing malicious file upl
   ```
   This helps identify pages where file uploads are available and could be tested for vulnerabilities.
 
----
-
 ### **Pro Tips:**
 - **Use the `site:` operator** to restrict the dork to a specific domain, limiting unnecessary results.
 - **Refine searches with keywords** to identify specific types of misconfigurations (like "admin", "debug", "login", etc.).
@@ -164,7 +164,13 @@ File upload functionality can sometimes be insecure, allowing malicious file upl
 
 ## Endpoint and JS File Analyze 
 
-`katana -u https://www.google.com/help/ -jc -o jvs.txt`
+`katana -u https://example.com/ -d 3  -jc | tee alljs.txt`
+<br>
+`echo example.com | gau | grep '\.js$' | anew alljs.txt`
+<br>
+`cat alljs.txt | httpx-toolkit -mc 200 -o example.txt`
+<br>
+`cat example.txt | jsleaks -s -l -k`
 
 ## Curl
 `
