@@ -1,8 +1,8 @@
 ## Index
 
-[Google Dorking](#Google-Dorking)
-[Endpoint and JS File Analyze](#Endpoint-and-JS-File-Analyze)
-[Curl](#Curl)
+1. [Google Dorking](#Google-Dorking)
+2. [Endpoint and JS File Analyze](#Endpoint-and-JS-File-Analyze)
+3. [Curl](#Curl)
 
 ## Google Dorking
 
