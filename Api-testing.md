@@ -7,7 +7,7 @@
    - 2.4. [Changing HTTP Methods](#changing-http-methods)
 3. [Mass Assignment](#mass-assignment)
 4. [Testing for Server-Side Parameter Pollution (SSPP)](#testing-for-server-side-parameter-pollution-sspp)
-   - 4.1. [Testing the Query String](#testing-the-query-string)
+   - 4.1. [Testing the Query String 🔴](#testing-the-query-string)
    - 4.2. [Overriding Existing Parameters](#overriding-existing-parameters)
    - 4.3. [Testing in REST Paths](#testing-in-rest-paths)
    - 4.4. [Testing in Structured Data Formats](#testing-in-structured-data-formats)
@@ -308,21 +308,80 @@ If the server does not validate the incoming data. An attacker could add the `"i
 
 # Testing for Server-Side Parameter Pollution (SSPP)
 
-### 3.1. Testing the Query String
-- Insert special characters like `#`, `&`, and `=` to observe the app's response.
-- Test how parameters are parsed and if they can be used to manipulate server-side logic.
+### 4.1. Testing the Query String
+### URL-Encoded `&` and `#`
 
-   **Examples:**
-   - Using a `#` to truncate the server-side query:
-     ```
-     http://example.com/search?name=alice%23additionalData
-     ```
-   - Attempting to add an extra parameter:
-     ```
-     http://example.com/search?name=attacker&email=test@example.com
-     ```
+When testing **SSPP**, encode query delimiters and check whether the server decodes them and interprets them as part of a **second/internal request**.
 
-### 3.2. Overriding Existing Parameters
+#### `%26` → `&` — Inject a parameter
+
+```text
+username=administrator%26x=y
+```
+
+After decoding:
+
+```text
+username=administrator&x=y
+```
+
+If used in an internal request:
+
+```text
+/internal-api?username=administrator&x=y
+```
+
+`x=y` becomes a **new parameter**.
+
+**Indicator:** An error like `Parameter is not supported` may confirm that the injected parameter reached the internal API.
+
+#### `%23` → `#` — Truncate the query
+
+```text
+username=administrator%23
+```
+
+After decoding:
+
+```text
+username=administrator#
+```
+
+If the server builds:
+
+```text
+/internal-api?username=administrator#&field=test
+```
+
+`#` starts the fragment, so `field=test` is no longer part of the query.
+
+**Indicator:** An error such as `Field not specified` may suggest that `field` was removed from the internal request.
+
+#### Combine Both
+
+```text
+username=administrator%26field=x%23
+```
+
+Decoded:
+
+```text
+username=administrator&field=x#
+```
+
+This attempts to **inject `field=x` and then truncate the remaining query**.
+
+**Remember:**
+
+```text
+%26 → &
+%23 → #
+```
+
+The interesting behavior occurs when the application **decodes your input and uses it to construct another server-side URL/query**.
+
+
+### 4.2. Overriding Existing Parameters
 - Try injecting duplicate parameters to see which one the server processes:
    ```
    name=attacker&name=originalUser
@@ -332,7 +391,7 @@ If the server does not validate the incoming data. An attacker could add the `"i
    - **ASP.NET:** Concatenates the parameters.
    - **Node.js/Express/Apache Tomcat:** Uses the first parameter.
      
-### 3.3. Testing in REST Paths
+### 4.3. Testing in REST Paths
 - Test RESTful APIs by manipulating URL path parameters.
 - Use path traversal sequences:
    ```
@@ -343,7 +402,7 @@ If the server does not validate the incoming data. An attacker could add the `"i
    /../../../../openapi.json
    ```
 
-### 3.4. Testing in Structured Data Formats
+### 4.4. Testing in Structured Data Formats
 - Test requests containing structured data formats (e.g., JSON, XML).
 - Inject parameters directly into JSON requests:
    ```json
@@ -357,19 +416,19 @@ If the server does not validate the incoming data. An attacker could add the `"i
 
 # Examples and Techniques
 
-### 4.1. Truncating Query Strings
+### 5.1. Truncating Query Strings
 - Use the `#` character to attempt truncation:
    ```
    http://example.com/resource?param=value%23additional
    ```
 
-### 4.2. Injecting Invalid Parameters
+### 5.2. Injecting Invalid Parameters
 - Add an unexpected or invalid parameter:
    ```
    &invalidParam=unexpectedValue
    ```
 
-### 4.3. Injecting Valid Parameters
+### 5.3. Injecting Valid Parameters
 - Add a known, valid parameter to observe how it is processed:
    ```
    name=attacker&email=attacker@example.com
@@ -379,7 +438,7 @@ If the server does not validate the incoming data. An attacker could add the `"i
 
 # Special Cases
 
-### 5.1. Structured Data Formats (JSON, XML)
+### 6.1. Structured Data Formats (JSON, XML)
 - **JSON Example:** Modify an API request that uses JSON:
    ```json
    POST /myaccount
