@@ -380,6 +380,7 @@ This attempts to **inject `field=x` and then truncate the remaining query**.
 
 The interesting behavior occurs when the application **decodes your input and uses it to construct another server-side URL/query**.
 
+[![Watch Video](https://img.youtube.com/vi/JMsZ6eg3nkU/maxresdefault.jpg)](https://www.youtube.com/watch?v=JMsZ6eg3nkU)
 
 ### 4.2. Overriding Existing Parameters
 - Try injecting duplicate parameters to see which one the server processes:
