@@ -8,7 +8,7 @@
 3. [Mass Assignment](#mass-assignment)
 4. [Testing for Server-Side Parameter Pollution (SSPP)](#testing-for-server-side-parameter-pollution-sspp)
    - 4.1. [Testing the Query String 🔴](#testing-the-query-string)
-   - 4.2. [Testing in REST Paths 🔴](testing-in-rest-paths)
+   - 4.2. [Testing in REST Paths 🔴](#testing-in-rest-paths)
    - 4.3. [Overriding Existing Parameters](#overriding-existing-parameters)
    - 4.4. [Testing in REST Paths](#testing-in-rest-paths)
    - 4.5. [Testing in Structured Data Formats](#testing-in-structured-data-formats)
