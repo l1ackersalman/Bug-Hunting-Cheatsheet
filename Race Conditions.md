@@ -25,6 +25,8 @@ Suppose an application requires an OTP for actions, allowing only five invalid O
 1. In Burp Intruder, create a custom resource pool with 10 or more concurrent requests.
 2. Start the attack to potentially bypass the five-attempt rate limit by sending 10+ requests in a single packet.
 
+> **Note:** In this type of scenario, the application may count multiple attempts sent within a single request as only **one attempt**. For example, if we send 10+ attempts in a single request, the application may only count it as 1 attempt. This means we may still have the remaining 4 attempts available and can send another 10+ attempts within a single request.
+
 ## Multi-Endpoint Race Conditions
 
 [PortSwigger Lab](https://portswigger.net/web-security/race-conditions/lab-race-conditions-multi-endpoint)
