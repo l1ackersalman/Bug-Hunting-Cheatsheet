@@ -2,9 +2,10 @@
 1. [API Types](#api-types)
 2. [API Reconnaissance](#api-reconnaissance)
    - 2.1. [Discovering API Documentation](#discovering-api-documentation)
-   - 2.2. [Fuzzing](#fuzzing)
-   - 2.3. [Burp Scanner](#burp-scanner)
-   - 2.4. [Changing HTTP Methods](#changing-http-methods)
+   - 2.2.  [Discovering Api Technology](#Discovering-Api-Technology)
+   - 2.3. [Fuzzing](#fuzzing)
+   - 2.4. [Burp Scanner](#burp-scanner)
+   - 2.5. [Changing HTTP Methods](#changing-http-methods)
 3. [Mass Assignment](#mass-assignment)
 4. [Testing for Server-Side Parameter Pollution (SSPP)](#testing-for-server-side-parameter-pollution-sspp)
    - 4.1. [Testing the Query String 🔴](#testing-the-query-string)
@@ -268,17 +269,191 @@ mosquitto_pub -h broker.example.com -t user/123/alert -m '{"message": "New login
 ### 1.1. Discovering API Documentation
 - Identify potential API documentation endpoints such as `/api-docs`, `/swagger`, `/openapi`, etc.
 - Use automated tools or wordlists to fuzz for common API paths.
-- Check for exposed API documentation, like OpenAPI or Swagger files, which can reveal endpoints, parameters, and authentication details.
+- Check for exposed API documentation, like OpenAPI or Swagger files such as `/api`, `/swagger/index.html`, `/openapi.json`, which can reveal endpoints, parameters, and authentication details.
 
-### 1.2. Fuzzing
+### 1.2. Discovering Api Technology
+**Java / Spring (springfox & springdoc)**
+- `/swagger-ui.html`
+- `/swagger-ui/`, `/swagger-ui/index.html`
+- `/v2/api-docs` (springfox, older)
+- `/v3/api-docs` (springdoc, newer — Spring Boot 2.6+/3.x)
+- `/v3/api-docs/swagger-config`
+
+**Python — FastAPI**
+- `/docs` (Swagger UI, default)
+- `/redoc` (ReDoc, default)
+- `/openapi.json`
+
+**Python — Flask (flask-swagger / flasgger / connexion)**
+- `/apidocs/`, `/apidocs/index.html` (flasgger default)
+- `/swagger.json`
+- `/api/swagger.json`
+
+**Node.js — Express (swagger-jsdoc / swagger-ui-express)**
+- `/api-docs` (very common custom mount point)
+- `/docs`
+- `/swagger.json`
+
+**.NET / ASP.NET Core (Swashbuckle)**
+- `/swagger`
+- `/swagger/index.html`
+- `/swagger/v1/swagger.json`
+
+**Ruby (rswag)**
+- `/api-docs`
+- `/swagger_doc.json`
+
+**Go (swaggo)**
+- `/swagger/index.html`
+- `/swagger/doc.json`
+
+**Generic / framework-agnostic — worth hitting regardless of stack**
+- `/openapi.json`, `/openapi.yaml`, `/openapi.yml`
+- `/api/openapi.json`
+- `/.well-known/openapi.json` (rare, but check)
+- `/api/v1/swagger.json`, `/api/v2/swagger.json` (version-prefix variants)
+- `/redoc.html`
+
+### 1.3. Fuzzing
 - Use wordlists based on common API naming conventions and industry-specific terms.
 - Tools like Burp Suite, OWASP ZAP, or ffuf can help discover hidden or undocumented endpoints.
+```
+swagger
+swagger.json
+swagger.yaml
+swagger.yml
+swagger-ui
+swagger-ui.html
+swagger-ui/
+swagger-ui/index.html
+swagger/
+swagger/index.html
+swagger/ui
+swagger/ui/index.html
+swagger-resources
+swagger-resources/configuration/ui
+swagger-resources/configuration/security
+openapi.json
+openapi.yaml
+openapi.yml
+openapi
+api-docs
+api-docs.json
+api-docs/
+api/docs
+api/swagger.json
+api/swagger.yaml
+api/openapi.json
+api/api-docs
+docs
+docs/
+redoc
+redoc.html
+redoc/
+rapidoc
+rapidoc.html
+v1/swagger.json
+v1/api-docs
+v1/openapi.json
+v2/api-docs
+v2/swagger.json
+v2/openapi.json
+v3/api-docs
+v3/api-docs/swagger-config
+v3/swagger.json
+v3/openapi.json
+api/v1/swagger.json
+api/v1/openapi.json
+api/v1/docs
+api/v1/api-docs
+api/v2/swagger.json
+api/v2/openapi.json
+api/v2/docs
+api/v2/api-docs
+api/v3/swagger.json
+api/v3/openapi.json
+api/v3/docs
+swagger-ui.html
+v2/api-docs
+v3/api-docs
+v3/api-docs/swagger-config
+webjars/springfox-swagger-ui/springfox.js
+swagger-resources/configuration/ui
+swagger-resources/configuration/security
+docs
+redoc
+openapi.json
+apidocs
+apidocs/
+apidocs/index.html
+flasgger_static/swagger-ui.css
+swagger.json
+api/swagger.json
+spec
+spec.json
+api-docs
+api-docs/
+docs
+swagger.json
+api/docs
+api/swagger.json
+swagger
+swagger/index.html
+swagger/v1/swagger.json
+swagger/v1/swagger.yaml
+index.html
+swagger/ui/index
+api-docs
+api-docs/
+api-docs.json
+swagger_doc.json
+swagger_doc/v1/swagger.json
+swagger/index.html
+swagger/doc.json
+swagger/swagger.json
+docs/swagger.json
+docs/swagger.yaml
+api/documentation
+docs/api
+swagger/docs
+storage/api-docs/api-docs.json
+graphql
+graphiql
+playground
+graphql/console
+altair
+voyager
+postman.json
+postman_collection.json
+insomnia.json
+.well-known/openapi.json
+.well-known/swagger.json
+.well-known/schema.json
+schema
+schema.json
+schema.yaml
+spec/swagger.json
+spec/openapi.json
+static/swagger.json
+static/openapi.json
+assets/swagger.json
+public/swagger.json
+dist/swagger.json
+internal-docs
+dev-docs
+api-explorer
+api-console
+api-reference
+developer
+developers
+developer/docs
+```
 
-### 1.3. Burp Scanner
+### 1.4. Burp Scanner
 - Configure Burp Suite to perform automated vulnerability scans on API endpoints.
 - Customize scan configurations to focus on specific vulnerabilities, such as authentication issues or sensitive data exposure.
 
-### 1.4. Changing HTTP Methods
+### 1.5. Changing HTTP Methods
 - Test different HTTP methods (GET, POST, PUT, DELETE, etc.) on the same endpoint.
 - Check if changing the method alters the response or bypasses certain access controls.
 
