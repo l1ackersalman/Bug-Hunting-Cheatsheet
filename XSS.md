@@ -1,4 +1,5 @@
 - [Testing XSS](#testing-xss)
+- [Testing HTML Injection](#Testing-HTML-Injection)
 - [Testing XSS in Various Scenarios](#testing-xss-in-various-scenarios)
 - [HTML Injection](#html-injection)
 - [Angle Brackets HTML-Encoded Bypass](#angle-brackets-html-encoded-bypass)
@@ -37,6 +38,13 @@ JavaScript​://%250A/*?'/*\'/*"/*\"/*`/*\`/*%26apos;)/*
 2. If `<` and `>` symbols are reflected in the source code without encoding, XSS is possible.
 3. If `'` or `"` symbols are reflected in the source code without encoding, XSS is possible.
 
+---
+
+## Testing HTML Injection
+
+```
+<a href='https://attacker.test/phish' style='font-weight:bold;color:red'>APRIRE RIFERIMENTO</a>
+```
 ---
 
 ## Testing XSS in Various Scenarios
