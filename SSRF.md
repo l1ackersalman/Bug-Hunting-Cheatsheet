@@ -1,7 +1,9 @@
 ## PoC
 
 1. [How I g0t 4000$ for AWS Metadata Leak and Takeover $$](https://ferreiraklet.github.io/posts/4000BountyAws/)
-2. [SSRF using Host Header](https://hackerone.com/reports/1783015)
+2. [SSRF via Host Header replacing](https://hackerone.com/reports/1783015)
+3. [SSRF via DNS Rebinding](https://hackerone.com/reports/1379656)
+4. [SSRF in webhooks via 303 redirect bypass](https://hackerone.com/reports/508459)
 
 ## Index:
 
