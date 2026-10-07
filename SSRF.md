@@ -1,6 +1,7 @@
 ## PoC
 
 [How I g0t 4000$ for AWS Metadata Leak and Takeover $$](https://ferreiraklet.github.io/posts/4000BountyAws/)
+[SSRF using Host Header](https://hackerone.com/reports/1783015)
 
 ## Index:
 
