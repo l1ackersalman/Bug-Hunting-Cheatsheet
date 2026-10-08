@@ -4,6 +4,8 @@
 2. [SSRF via Host Header replacing](https://hackerone.com/reports/1783015)
 3. [SSRF via DNS Rebinding](https://hackerone.com/reports/1379656)
 4. [SSRF in webhooks via 303 redirect bypass](https://hackerone.com/reports/508459)
+5. [SSRF via URL Path](https://hackerone.com/reports/1189367)
+6. [Port Scanning via SSRF](https://hackerone.com/reports/727330)
 
 ## Index:
 
