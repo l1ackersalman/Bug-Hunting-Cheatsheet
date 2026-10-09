@@ -8,6 +8,7 @@
 6. [SSRF via X-Forwarded-Host](https://hackerone.com/reports/727330)
 7. [SSRF chained to hit internal host leading to another SSRF which allows to read internal images](https://hackerone.com/reports/826097)
 8. [External SSRF and Local File Read via video upload due to vulnerable FFmpeg HLS processing](https://hackerone.com/reports/1062888)
+9. [DNS Rebinding SSRF in Burp Suite MCP Server](https://hackerone.com/reports/3176157)
 
 ## Index:
 
